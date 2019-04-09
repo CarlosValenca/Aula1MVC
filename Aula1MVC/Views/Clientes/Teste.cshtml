@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Aula1MVC.Models.Cliente>
+
+@{
+    ViewBag.Title = "Teste";
+    // códigos adicionais...
+}
+
+@* Comentários usando Razor *@
+
+@* Assim não funciona, não mostrará como html *@
+<div>@ViewBag.Ola</div>
+
+@* Assim mostra em html *@
+<div>@Html.Raw(ViewBag.Ola)</div>
+
+@{
+    foreach (var cliente in Model)
+    {
+        @* para podermos usar html e código razor usamos o @ novamente *@
+        <div>@Html.Hidden("Id", cliente.Id)</div>
+
+        <div>
+            @Html.Label("txtNome", "Nome: ",
+        new { text = "Nome:", @class = "control-label col-md-2" })
+        </div>
+
+        <div>
+            @Html.TextBox("txtNome", cliente.Nome)
+            @Html.TextBoxFor(model => cliente.Nome)
+            @Html.EditorFor(model => cliente.Nome)
+        </div>
+
+        <div>@Html.TextArea("txtNome2", new { rows = 5 })</div>
+        <div>@Html.TextArea("txtNome3", cliente.Nome)</div>
+        <div>
+            @Html.ActionLink("Clique aqui", "Edit",
+       new { id = cliente.Id }
+       )
+    </div>
+
+    @* Traz o conteúdo do link na página atual... *@
+    @* <div>@Html.Action("Edit","Clientes",new { cliente.Id })</div> *@
+    <div>@Html.LabelFor(model => cliente.Nome)</div>
+    <div>@Html.DisplayNameFor(model => model.Nome)</div>
+    <div>@Html.DisplayFor(model => cliente.Nome)</div>
+
+    <div>
+        @Html.RadioButton("corFavorita", "Azul", true) Azul
+        @Html.RadioButton("corFavorita", "Amarelo", false) Amarelo
+        @Html.RadioButton("corFavorita", "Preto", false) Preto
+    </div>
+
+    <div>@Html.ListBox("listaCores",
+        new SelectList(
+            new  List<string>()
+            {
+                "Azul",
+                "Amarelo",
+                "Preto"
+            }))
+    </div>
+}
+}

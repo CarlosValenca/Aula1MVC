@@ -15,6 +15,12 @@ namespace Aula1MVC.Controllers
     {
         private Aula1Context db = new Aula1Context();
 
+        public ActionResult Teste()
+        {
+            ViewBag.Ola = "<h2>Olá</h2>";
+            return View(db.Cliente.ToList());
+        }
+
         // GET: Clientes
         public ActionResult Index()
         {
