@@ -18,6 +18,10 @@ namespace Aula1MVC.Controllers
         public ActionResult Teste()
         {
             ViewBag.Ola = "<h2>Olá</h2>";
+
+            // Solução elegante para a criação de um drop down list, o número 3 determina qual será o item selecionado da view bag !
+            ViewBag.Id = new SelectList(db.Cliente.ToList(), "Id", "Nome", 3);
+
             return View(db.Cliente.ToList());
         }
 

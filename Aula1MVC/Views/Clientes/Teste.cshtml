@@ -21,7 +21,7 @@
 
         <div>
             @Html.Label("txtNome", "Nome: ",
-        new { text = "Nome:", @class = "control-label col-md-2" })
+ new { text = "Nome:", @class = "control-label col-md-2" })
         </div>
 
         <div>
@@ -34,30 +34,82 @@
         <div>@Html.TextArea("txtNome3", cliente.Nome)</div>
         <div>
             @Html.ActionLink("Clique aqui", "Edit",
-       new { id = cliente.Id }
-       )
-    </div>
+new { id = cliente.Id }
+)
+        </div>
 
-    @* Traz o conteúdo do link na página atual... *@
-    @* <div>@Html.Action("Edit","Clientes",new { cliente.Id })</div> *@
-    <div>@Html.LabelFor(model => cliente.Nome)</div>
-    <div>@Html.DisplayNameFor(model => model.Nome)</div>
-    <div>@Html.DisplayFor(model => cliente.Nome)</div>
+        @* Traz o conteúdo do link na página atual... *@
+        @* <div>@Html.Action("Edit","Clientes",new { cliente.Id })</div> *@
+        <div>@Html.LabelFor(model => cliente.Nome)</div>
+        <div>@Html.DisplayNameFor(model => model.Nome)</div>
+        <div>@Html.DisplayFor(model => cliente.Nome)</div>
+
+        <div>
+            @Html.RadioButton("corFavorita", "Azul", true) Azul
+            @Html.RadioButton("corFavorita", "Amarelo", false) Amarelo
+            @Html.RadioButton("corFavorita", "Preto", false) Preto
+        </div>
+
+        <div>
+            @Html.ListBox("listaCores",
+new SelectList(
+    new List<string>()
+           {
+               "Azul",
+               "Amarelo",
+               "Preto"
+           }))
+    </div>
 
     <div>
-        @Html.RadioButton("corFavorita", "Azul", true) Azul
-        @Html.RadioButton("corFavorita", "Amarelo", false) Amarelo
-        @Html.RadioButton("corFavorita", "Preto", false) Preto
+        @Html.DropDownListFor(c => cliente.Nome,
+     new SelectList(Model, "Id", "Nome"))
     </div>
 
-    <div>@Html.ListBox("listaCores",
-        new SelectList(
-            new  List<string>()
+    <div>
+        @Html.DropDownList("drpListCores",
+     new SelectList(
+         new List<string>()
             {
-                "Azul",
-                "Amarelo",
-                "Preto"
+            "Azul",
+            "Amarelo",
+            "Preto"
             }))
     </div>
-}
+
+    <div>
+        @* String.Empty cria um espaço em branco na lista
+            O Id informado é o nome da view bag passada pela controller *@
+        @Html.DropDownList("Id", String.Empty)
+    </div>
+
+    <div>
+        @Html.CheckBox("Certificado", false) Desejo receber Certificado ?
+    </div>
+
+    @* Se o cliente.Id fosse booleano iria funcionar
+    <div>
+        @Html.CheckBoxFor(c => cliente.Id) Desejo receber Certificado ?
+    </div>
+    *@
+
+    <div>
+        @{ 
+            var teste = @Html.Partial("_Saudacao");
+        }
+    </div>
+
+    <div>
+        @{
+            Response.Write("Render partial é mais rápido, porém não retorna alguma coisa como o Partial");
+            Html.RenderPartial("_Saudacao");
+        }
+    </div>
+
+    <div>
+        @*Podemos criar um link para alguma controller ! *@
+        <a href="@Url.Action("About", "Home")">About Home</a>
+    </div>
+
+    }
 }
