@@ -179,6 +179,7 @@
     <Content Include="Views\Clientes\Index.cshtml" />
     <Content Include="Views\Clientes\Teste.cshtml" />
     <Content Include="Views\Clientes\_Saudacao.cshtml" />
+    <Content Include="Views\Clientes\TesteCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

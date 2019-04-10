@@ -15,6 +15,11 @@ namespace Aula1MVC.Controllers
     {
         private Aula1Context db = new Aula1Context();
 
+        public ActionResult TesteCreate()
+        {
+            return View();
+        }
+
         public ActionResult Teste()
         {
             ViewBag.Ola = "<h2>Olá</h2>";
@@ -57,10 +62,18 @@ namespace Aula1MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nome,Sobrenome,DataCadastro")] Cliente cliente)
+
+        public ActionResult Create([Bind(Include = "Id,Nome,Sobrenome,Email")] Cliente cliente)
+        // public ActionResult Create(Cliente cliente), se a tabela tiver muitos campos não é necessário usar o bind
         {
             if (ModelState.IsValid)
             {
+                if(!cliente.Email.Contains(".br"))
+                {
+                    ModelState.AddModelError(String.Empty, "E-mail não pode ser internacional");
+                    return View(cliente);
+                }
+                cliente.DataCadastro = DateTime.Now;
                 db.Cliente.Add(cliente);
                 db.SaveChanges();
                 return RedirectToAction("Index");
