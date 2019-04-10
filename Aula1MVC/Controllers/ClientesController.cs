@@ -15,22 +15,8 @@ namespace Aula1MVC.Controllers
     {
         private Aula1Context db = new Aula1Context();
 
-        public ActionResult TesteCreate()
-        {
-            return View();
-        }
-
-        public ActionResult Teste()
-        {
-            ViewBag.Ola = "<h2>Olá</h2>";
-
-            // Solução elegante para a criação de um drop down list, o número 3 determina qual será o item selecionado da view bag !
-            ViewBag.Id = new SelectList(db.Cliente.ToList(), "Id", "Nome", 3);
-
-            return View(db.Cliente.ToList());
-        }
-
         // GET: Clientes
+        [HttpGet]
         public ActionResult Index()
         {
             return View(db.Cliente.ToList());
@@ -52,6 +38,7 @@ namespace Aula1MVC.Controllers
         }
 
         // GET: Clientes/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
@@ -102,7 +89,7 @@ namespace Aula1MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nome,Sobrenome,DataCadastro")] Cliente cliente)
+        public ActionResult Edit([Bind(Include = "Id,Nome,Sobrenome,Email")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -114,6 +101,7 @@ namespace Aula1MVC.Controllers
         }
 
         // GET: Clientes/Delete/5
+        [HttpGet]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -131,6 +119,8 @@ namespace Aula1MVC.Controllers
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        // Apesar do nome desta action result ser DeleteConfirmed para que não tenhamos 2 assinaturas iguais, o ActionName permitirá chamar
+        // esta action com o apelido dado de Delete
         public ActionResult DeleteConfirmed(int id)
         {
             Cliente cliente = db.Cliente.Find(id);
