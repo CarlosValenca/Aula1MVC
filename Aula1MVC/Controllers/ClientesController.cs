@@ -16,15 +16,27 @@ namespace Aula1MVC.Controllers
 
         private Aula1Context db = new Aula1Context();
 
-        // Aqui podemos utilizar o JsonResult para um tipo específico de retorno ou o ActionResult para tipos genéricos de retorno
-        public JsonResult Teste()
+        // Podemos usar um cache de 30 em 30 segundos por exemplo para evitar multiplos requests de múltiplos clientes
+        [OutputCache(Duration = 30)]
+        public ContentResult Teste()
         {
-            return Json(db.Cliente.ToList(), JsonRequestBehavior.AllowGet);
-            // return new HttpUnauthorizedResult();
-            // return JavaScript("<script>alert(olá);</script>");
-            // return Content("Olá");
+            return Content(DateTime.Now.ToString());
         }
-        
+
+        // Cria um tipo de cache por cada parâmetro que vc passar, não precisa ser somente o id, para variar por todos basta colocar "*" no VaryByParam
+        [OutputCache(Duration = 30, VaryByParam = "id")]
+        public ContentResult Teste2(int id)
+        {
+            return Content(DateTime.Now.ToString());
+        }
+
+        // Permite receber qualquer tipo de dado seja ele perigoso ou não
+        [ValidateInput(false)]
+        public ContentResult Teste3(int id)
+        {
+            return Content(DateTime.Now.ToString());
+        }
+
         // GET: Clientes
         [HttpGet]
         public ActionResult Index()
@@ -58,8 +70,8 @@ namespace Aula1MVC.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        // Se eu tentar alterar o token gerado dentro do form a cada novo cliente incluído vou ter uma mensagem impedindo a gravação
         [ValidateAntiForgeryToken]
-
         public ActionResult Create([Bind(Include = "Id,Nome,Sobrenome,Email")] Cliente cliente)
         // public ActionResult Create(Cliente cliente), se a tabela tiver muitos campos não é necessário usar o bind
         {
