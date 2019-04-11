@@ -13,8 +13,18 @@ namespace Aula1MVC.Controllers
 {
     public class ClientesController : Controller
     {
+
         private Aula1Context db = new Aula1Context();
 
+        // Aqui podemos utilizar o JsonResult para um tipo específico de retorno ou o ActionResult para tipos genéricos de retorno
+        public JsonResult Teste()
+        {
+            return Json(db.Cliente.ToList(), JsonRequestBehavior.AllowGet);
+            // return new HttpUnauthorizedResult();
+            // return JavaScript("<script>alert(olá);</script>");
+            // return Content("Olá");
+        }
+        
         // GET: Clientes
         [HttpGet]
         public ActionResult Index()
